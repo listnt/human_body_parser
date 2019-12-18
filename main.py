@@ -222,24 +222,25 @@ def check_img(img):
 
 
 def my_parse():
-    base_url=r"https://www.lamoda.ru/c/355/clothes-zhenskaya-odezhda/?sitelink=topmenuW&l=3&page="
+    base_urls=[r"https://www.lamoda.ru/c/477/clothes-muzhskaya-odezhda/?sitelink=topmenuM&l=2&page=",r"https://www.lamoda.ru/c/355/clothes-zhenskaya-odezhda/?sitelink=topmenuW&l=3&page="]
     j=0
     ua = UserAgent()
     aa=[]
-    for i in range(1,167):
-        header={'User-Agent':ua.random}
-        response = requests.get(base_url+str(i),headers=header)
-        re=response.content
-        soup=BeautifulSoup(re)
-        items=soup.find_all('div',attrs={"class": "products-list-item"})
-        for div in items:
-            images_url=div["data-gallery"]
-            images_paths=regex.findall("\"(.*?)\"",images_url)
-            for url in images_paths:
-                response=requests.get("http:"+url,headers=header)
-                img = Image.open(BytesIO(response.content))
-                if check_img(img):
-                    img.save(f"images_db/{j}.png","PNG")
-                j=j+1
+    for kkk,base_url in enumerate(base_urls):
+        for i in range(1,167):
+            header={'User-Agent':ua.random}
+            response = requests.get(base_url+str(i),headers=header)
+            re=response.content
+            soup=BeautifulSoup(re)
+            items=soup.find_all('div',attrs={"class": "products-list-item"})
+            for div in items:
+                images_url=div["data-gallery"]
+                images_paths=regex.findall("\"(.*?)\"",images_url)
+                for url in images_paths:
+                    response=requests.get("http:"+url,headers=header)
+                    img = Image.open(BytesIO(response.content))
+                    if check_img(img):
+                        img.save(f"images_db/{kkk}/{j}.png","PNG")
+                    j=j+1
 
 my_parse()
