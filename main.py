@@ -237,10 +237,13 @@ def my_parse():
                 images_url=div["data-gallery"]
                 images_paths=regex.findall("\"(.*?)\"",images_url)
                 for url in images_paths:
-                    response=requests.get("http:"+url,headers=header)
-                    img = Image.open(BytesIO(response.content))
-                    if check_img(img):
-                        img.save(f"images_db/{kkk}/{j}.png","PNG")
-                    j=j+1
+                    try:
+                        response=requests.get("http:"+url,headers=header)
+                        img = Image.open(BytesIO(response.content))
+                        if check_img(img):
+                            img.save(f"images_db/{kkk}/{j}.png","PNG")
+                        j=j+1
+                    except:
+                        continue
 
 my_parse()
