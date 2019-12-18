@@ -34,3 +34,5 @@ wget -c ${OPENPOSE_URL}${FACE_MODEL} -P ${FACE_FOLDER}
 # Hand
 HAND_MODEL=$HAND_FOLDER"pose_iter_102000.caffemodel"
 wget -c ${OPENPOSE_URL}${HAND_MODEL} -P ${HAND_FOLDER}
+mkdir "images_db/0"
+mkdir "images_db/1"
